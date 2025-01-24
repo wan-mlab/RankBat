@@ -18,5 +18,5 @@ MB_RANK_GP<-LaSelect(GSE85217, sampAnnote_GSE85217, all_rank_t_genes,all_reverse
 ```
 4. use MBS() function in step4.R file:
 ```bash
-myMat<- (GSE21140, MB_RANK_GP, sampAnnote_GSE21140)
+myMat<- (all_datasets, MB_RANK_GP, sampAnnote_all)
 ```
