@@ -23,7 +23,7 @@ MBS<-function(data, MB_RANK_GP, sampannote){
   signatureGenes <- unique(as.character(sapply(signatureProbes, FUN=getGenes)))
 
   #Filter Matrix
-  exprs<-all_datasets
+  exprs<-data
   exprs_SG <- exprs[intersect(rownames(exprs), signatureGenes),,drop = F]
 
   #Create Ratios
@@ -33,7 +33,6 @@ MBS<-function(data, MB_RANK_GP, sampannote){
     g1g2_ratio <- 2^(exprs[g1,,drop = F]-exprs[g2,,drop = F])
     return(g1g2_ratio)
   }
-  #exprs_SG<-sam
   if(ncol(exprs_SG) > 1){
     corGenes <- stats::cor(t(exprs_SG))
     corGenes <- data.frame(reshape2::melt(corGenes))
@@ -90,7 +89,7 @@ MBS<-function(data, MB_RANK_GP, sampannote){
   pred <- pred[sample.order,] # keeping the correct order
 
 
-  samp_14<-sampAnnote_all
+  samp_14<-sampannote
   pred<-pred[samp_14$gsm,]
   best.fit<-pred[,1]
   #actual<-label_5_LBL202#label_2_validation
