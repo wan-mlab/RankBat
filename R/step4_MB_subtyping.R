@@ -9,7 +9,7 @@
 #'
 #' @return a global object myMat
 #' @export
-#' @examples myMat<- (GSE21140, MB_RANK_GP, sampAnnote_GSE21140)
+#' @examples myMat<- (all_datasets, MB_RANK_GP, sampAnnote_all)
 MBS<-function(data, MB_RANK_GP, sampannote){
   medulloGeneSetsUp <- MB_RANK_GP #MB_RANK_GP#GB_RANK_GP_reversalratio#medulloSetsUp#MB_RANK_GP#MB_RANK_GP_reversalratio_alpha0.06
   signatureProbes <-c(medulloGeneSetsUp$WNT,medulloGeneSetsUp$SHH,
@@ -23,7 +23,7 @@ MBS<-function(data, MB_RANK_GP, sampannote){
   signatureGenes <- unique(as.character(sapply(signatureProbes, FUN=getGenes)))
 
   #Filter Matrix
-  exprs<-data
+  exprs<-all_datasets
   exprs_SG <- exprs[intersect(rownames(exprs), signatureGenes),,drop = F]
 
   #Create Ratios
@@ -73,14 +73,10 @@ MBS<-function(data, MB_RANK_GP, sampannote){
     getScoreSet <- function(x, myMat = myMat) {
       return(colMeans(myMat[rownames(myMat) %in% x,,drop = F]))
     }
-
     myMatUp <- data.frame(lapply(mySetsUp, FUN = getScoreSet, myMat))
-
     myMatUp$Pred_Subtype <- apply(myMatUp, 1, function(row) {
       colnames(myMatUp)[which.max(row)]
     })
-
-
     return( myMatUp)
   }
 
@@ -94,7 +90,7 @@ MBS<-function(data, MB_RANK_GP, sampannote){
   pred <- pred[sample.order,] # keeping the correct order
 
 
-  samp_14<-sampannote
+  samp_14<-sampAnnote_all
   pred<-pred[samp_14$gsm,]
   best.fit<-pred[,1]
   #actual<-label_5_LBL202#label_2_validation
